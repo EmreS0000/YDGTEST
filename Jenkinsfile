@@ -22,7 +22,8 @@ def runE2E(String testName) {
                "-Dspring.datasource.username=postgres " +
                "-Dspring.datasource.password=1234 " +
                "-Dspring.datasource.driver-class-name=org.postgresql.Driver " +
-               "-Dspring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect"
+               "-Dspring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect " +
+               "-Dspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect"
 
   // Memory settings for the Test JVM
   def memoryArgs = "-Xmx1024m -XX:MaxMetaspaceSize=384m"
