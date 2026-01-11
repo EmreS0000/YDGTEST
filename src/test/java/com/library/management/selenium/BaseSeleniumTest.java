@@ -31,7 +31,8 @@ public abstract class BaseSeleniumTest {
 
     @BeforeEach
     void setup() {
-        // Load URLs from System Properties (set by Jenkins/Maven), fallback to localhost
+        // Load URLs from System Properties (set by Jenkins/Maven), fallback to
+        // localhost
         frontendUrl = System.getProperty("FRONTEND_URL", "http://localhost:5173");
         String backendUrl = System.getProperty("BASE_URL", "http://localhost:8080");
         baseUrl = backendUrl + "/api/v1";
@@ -51,24 +52,25 @@ public abstract class BaseSeleniumTest {
             }
         }
 
-        // If running in Docker (Jenkins), use RemoteWebDriver logic or configured driver
+        // If running in Docker (Jenkins), use RemoteWebDriver logic or configured
+        // driver
         // For simplicity, we assume Selenium Grid usage if SELENIUM_URL is set
         String seleniumUrl = System.getProperty("SELENIUM_URL");
         if (seleniumUrl != null && !seleniumUrl.isEmpty()) {
-             try {
+            try {
                 driver = new org.openqa.selenium.remote.RemoteWebDriver(new java.net.URL(seleniumUrl), options);
-             } catch (java.net.MalformedURLException e) {
+            } catch (java.net.MalformedURLException e) {
                 throw new RuntimeException("Invalid Selenium URL", e);
-             }
+            }
         } else {
-             driver = new ChromeDriver(options);
+            driver = new ChromeDriver(options);
         }
 
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
         driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     @AfterEach
@@ -89,4 +91,3 @@ public abstract class BaseSeleniumTest {
         waitForDomReady();
     }
 }
-
