@@ -103,7 +103,7 @@ class BookManagementSeleniumTest extends BaseSeleniumTest {
                 By.cssSelector("input[placeholder*='Search']")));
         searchInput.sendKeys("Sample");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(
-            By.cssSelector("[data-testid='book-grid']"), "Sample"));
+                By.cssSelector("[data-testid='book-grid']"), "Sample"));
 
         // Verify search results
         assertTrue(driver.getPageSource().contains("Sample Book"));
@@ -121,10 +121,10 @@ class BookManagementSeleniumTest extends BaseSeleniumTest {
 
         wait.until(ExpectedConditions.urlContains("/admin"));
         assertTrue(driver.getCurrentUrl().contains("/admin"));
-        
+
         // Verify admin dashboard elements
-        assertTrue(driver.getPageSource().contains("Library Admin") || 
-                   driver.getPageSource().contains("Admin Dashboard"));
+        assertTrue(driver.getPageSource().contains("Library Admin") ||
+                driver.getPageSource().contains("Admin Dashboard"));
     }
 
     @Test
@@ -143,6 +143,13 @@ class BookManagementSeleniumTest extends BaseSeleniumTest {
         WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(
                 By.cssSelector("[data-testid='logout-btn']")));
         logoutButton.click();
+
+        try {
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+        } catch (Exception e) {
+            // No alert present, just continue
+        }
 
         wait.until(ExpectedConditions.urlContains("/login"));
         assertTrue(driver.getCurrentUrl().contains("/login"));
@@ -180,4 +187,3 @@ class BookManagementSeleniumTest extends BaseSeleniumTest {
         }
     }
 }
-
