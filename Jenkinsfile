@@ -13,7 +13,7 @@ def e2eEnv(String chromeArgs) {
   ]
 }
 
-def runE2E(String includesPattern) {
+def runE2E(String testName) {
   def chromeArgs = chromeArgsCommon()
   def envs = e2eEnv(chromeArgs)
 
@@ -24,17 +24,20 @@ def runE2E(String includesPattern) {
                "-Dspring.datasource.driver-class-name=org.postgresql.Driver " +
                "-Dspring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect"
 
+  // Memory settings for the Test JVM
+  def memoryArgs = "-Xmx1024m -XX:MaxMetaspaceSize=384m"
+
   withEnv(envs) {
     if (isUnix()) {
       sh "./mvnw ${env.MVN_ARGS} failsafe:integration-test failsafe:verify " +
          "${dbArgs} " +
-         "-Dincludes=${includesPattern} " +
-         "-DargLine=\"-DBASE_URL=$BASE_URL -DFRONTEND_URL=$FRONTEND_URL -DSELENIUM_URL=$SELENIUM_URL -DCHROME_ARGS=$CHROME_ARGS\""
+         "-Dit.test=${testName} " +
+         "-DargLine=\"-DBASE_URL=$BASE_URL -DFRONTEND_URL=$FRONTEND_URL -DSELENIUM_URL=$SELENIUM_URL -DCHROME_ARGS=$CHROME_ARGS ${memoryArgs}\""
     } else {
       bat ".\\mvnw.cmd %MVN_ARGS% failsafe:integration-test failsafe:verify " +
-          "${dbArgs} " + 
-          "-Dincludes=\"${includesPattern}\" " +
-          "-DargLine=\"-DBASE_URL=%BASE_URL% -DFRONTEND_URL=%FRONTEND_URL% -DSELENIUM_URL=%SELENIUM_URL% -DCHROME_ARGS=%CHROME_ARGS%\""
+          "${dbArgs} " +
+          "-Dit.test=\"${testName}\" " +
+          "-DargLine=\"-DBASE_URL=%BASE_URL% -DFRONTEND_URL=%FRONTEND_URL% -DSELENIUM_URL=%SELENIUM_URL% -DCHROME_ARGS=%CHROME_ARGS% ${memoryArgs}\""
     }
   }
 }
@@ -206,17 +209,17 @@ exit 0
     // ---------------- 6) En az 3 senaryo (ayrı stage) ----------------
 
     stage('6.1-Selenium Scenario 1: Login') {
-      steps { script { runE2E("**/LoginSeleniumTest.java") } }
+      steps { script { runE2E("LoginSeleniumTest") } }
       post { always { junit allowEmptyResults: true, testResults: 'target/failsafe-reports/*.xml' } }
     }
 
     stage('6.2-Selenium Scenario 2: Register') {
-      steps { script { runE2E("**/RegisterSeleniumTest.java") } }
+      steps { script { runE2E("RegisterSeleniumTest") } }
       post { always { junit allowEmptyResults: true, testResults: 'target/failsafe-reports/*.xml' } }
     }
 
     stage('6.3-Selenium Scenario 3: Book Management') {
-      steps { script { runE2E("**/BookManagementSeleniumTest.java") } }
+      steps { script { runE2E("BookManagementSeleniumTest") } }
       post { always { junit allowEmptyResults: true, testResults: 'target/failsafe-reports/*.xml' } }
     }
   }
