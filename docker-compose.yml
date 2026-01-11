@@ -11,7 +11,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1234
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - JAVA_OPTS=-Xmx384m -Xms192m -XX:MaxMetaspaceSize=64m -XX:+UseSerialGC -XX:TieredStopAtLevel=1
+      - JAVA_OPTS=-Xmx512m -Xms256m -XX:MaxMetaspaceSize=256m -XX:+UseSerialGC -XX:TieredStopAtLevel=1
       - SERVER_TOMCAT_THREADS_MAX=5
       - SERVER_TOMCAT_THREADS_MIN_SPARE=1
       - LOGGING_LEVEL_ROOT=WARN
@@ -19,8 +19,8 @@ services:
       - db
     networks:
       - library-net
-    mem_limit: 384m
-    memswap_limit: 384m
+    mem_limit: 1024m
+    memswap_limit: 1024m
 
   frontend:
     build: ./frontend

@@ -15,7 +15,7 @@ RUN mvn clean package -DskipTests -q && rm -rf /root/.m2/repository
 FROM eclipse-temurin:21-jdk-alpine
 
 # Runtime'da hafıza limit (docker-compose'daki mem_limit ile uyumlu)
-ENV JAVA_OPTS="-Xmx320m -Xms160m -XX:MaxMetaspaceSize=64m -XX:+UseSerialGC -XX:TieredStopAtLevel=1"
+ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:MaxMetaspaceSize=256m -XX:+UseSerialGC -XX:TieredStopAtLevel=1"
 
 WORKDIR /app
 VOLUME /tmp
