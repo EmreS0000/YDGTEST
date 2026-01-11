@@ -147,7 +147,7 @@ if(-not (Wait-Url "http://localhost:4444/status" 60 2)){
 
 # 2) Backend ready
 # En sağlam endpoint: /actuator/health varsa onu kullan. Yoksa root bile yeterli.
-$okApi = Wait-Url "http://localhost:8080" 120 2
+$okApi = Wait-Url "http://localhost:8080" 300 2
 if(-not $okApi){
   Write-Host "FAIL: Backend not reachable on 8080"
   & docker compose -p $project -f $compose logs --no-color app | Out-Host
@@ -155,7 +155,7 @@ if(-not $okApi){
 }
 
 # 3) Frontend ready
-$okUi = Wait-Url "http://localhost:5173" 120 2
+$okUi = Wait-Url "http://localhost:5173" 300 2
 if(-not $okUi){
   Write-Host "FAIL: Frontend not reachable on 5173"
   & docker compose -p $project -f $compose logs --no-color frontend | Out-Host
