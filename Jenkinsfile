@@ -69,7 +69,7 @@ pipeline {
         checkout(changelog: false, poll: false, scm: [
           $class: 'GitSCM',
           branches: [[name: '*/main']],
-          userRemoteConfigs: [[url: 'https://github.com/EmreS0000/LibraryManagement.git']]
+          userRemoteConfigs: [[url: 'https://github.com/EmreS0000/YDGTEST.git']]
         ])
       }
     }
