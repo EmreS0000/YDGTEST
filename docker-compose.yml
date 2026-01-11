@@ -43,7 +43,7 @@ services:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_INITDB_ARGS=-c max_connections=20 -c shared_buffers=16MB -c effective_cache_size=64MB -c work_mem=4MB -c maintenance_work_mem=16MB
     ports:
-      - "5432:5432"
+      - "5438:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

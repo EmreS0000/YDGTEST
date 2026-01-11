@@ -18,7 +18,7 @@ def runE2E(String testName) {
   def envs = e2eEnv(chromeArgs)
 
   // DB args to force tests to use the Docker Postgres instead of H2
-  def dbArgs = "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/DogrulamaGecerleme " +
+  def dbArgs = "-Dspring.datasource.url=jdbc:postgresql://localhost:5438/DogrulamaGecerleme " +
                "-Dspring.datasource.username=postgres " +
                "-Dspring.datasource.password=1234 " +
                "-Dspring.datasource.driver-class-name=org.postgresql.Driver " +
